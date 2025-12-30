@@ -1,4 +1,4 @@
-const STATAMIC_API = 'http://localhost:8000/api';
+const STATAMIC_API = 'https://aas-production.up.railway.app/api';
 
 export async function getPosts() {
     try {

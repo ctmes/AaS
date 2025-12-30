@@ -1,0 +1,95 @@
+---
+import { getPosts } from '../lib/statamic';
+
+const posts = await getPosts();
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width" />
+		<title>Blog - Astro + Statamic</title>
+		<style>
+			body {
+				font-family: system-ui, -apple-system, sans-serif;
+				max-width: 800px;
+				margin: 0 auto;
+				padding: 2rem;
+				background: #0f0f0f;
+				color: #ffffff;
+			}
+			h1 {
+				font-size: 2.5rem;
+				color: #4ecdc4;
+				margin-bottom: 2rem;
+			}
+			.post {
+				background: #1a1a1a;
+				border-radius: 12px;
+				padding: 2rem;
+				margin-bottom: 2rem;
+				border: 1px solid #333;
+			}
+			.post-title {
+				font-size: 1.8rem;
+				color: #ff6b6b;
+				margin: 0 0 1rem 0;
+			}
+			.post-meta {
+				color: #888;
+				margin-bottom: 1rem;
+			}
+			.nav {
+				margin-bottom: 2rem;
+			}
+			.nav a {
+				color: #4ecdc4;
+				text-decoration: none;
+				margin-right: 1rem;
+				font-weight: 500;
+			}
+			.nav a:hover {
+				text-decoration: underline;
+			}
+			.debug {
+				background: #1a1a2e;
+				border: 1px solid #4ecdc4;
+				padding: 1rem;
+				border-radius: 8px;
+				font-family: monospace;
+				font-size: 0.85rem;
+				margin-top: 2rem;
+			}
+		</style>
+	</head>
+	<body>
+		<nav class="nav">
+			<a href="/">Home</a>
+			<a href="/blog">Blog</a>
+			<a href="/products">Products</a>
+		</nav>
+		
+		<h1>Blog Posts</h1>
+		
+		{posts.data && posts.data.length > 0 ? (
+			posts.data.map((post: any) => (
+				<article class="post">
+					<h2 class="post-title">{post.title}</h2>
+					<div class="post-meta">
+						{post.date && <span>Published: {new Date(post.date).toLocaleDateString()}</span>}
+					</div>
+					{post.content && <div set:html={post.content} />}
+				</article>
+			))
+		) : (
+			<div>
+				<p>No posts found.</p>
+				<div class="debug">
+					<p>API Response:</p>
+					<pre>{JSON.stringify(posts, null, 2)}</pre>
+				</div>
+			</div>
+		)}
+	</body>
+</html>
