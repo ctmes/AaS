@@ -1,0 +1,47 @@
+---
+import { getPosts } from '../lib/statamic';
+const products = await getPosts();
+---
+
+<html>
+  <head>
+    <title>JWA Products - Demo</title>
+    <style>
+      body { 
+        font-family: system-ui; 
+        max-width: 1200px; 
+        margin: 0 auto; 
+        padding: 40px 20px;
+        background: #f5f5f5;
+      }
+      h1 { color: #333; margin-bottom: 30px; }
+      .products {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+      }
+      .product {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      }
+      .product h2 { color: #0066cc; margin: 0 0 10px 0; }
+      .product p { color: #666; line-height: 1.6; }
+    </style>
+  </head>
+  <body>
+    <h1>JWA Composite Matting Products</h1>
+    <div class="products">
+      {products.data && products.data.map((product) => (
+        <div class="product">
+          <h2>{product.title}</h2>
+          <p>{product.description || 'High-quality composite matting solution'}</p>
+        </div>
+      ))}
+      {(!products.data || products.data.length === 0) && (
+        <p>No products found or failed to load.</p>
+      )}
+    </div>
+  </body>
+</html>
