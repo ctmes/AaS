@@ -8,7 +8,25 @@ This project utilizes a **Modern Decoupled Architecture** (Headless CMS).
 
 ---
 
-## 1. Technological Stack
+## 2. Migration & Modernization Context
+This project represents a strategic migration from legacy monolithic platforms (**WordPress / Kentico**) to a modern, future-proof stack.
+
+### Key Improvements over Legacy Systems
+| Feature | Legacy (WP/Kentico) | New Stack (Astro + Statamic) |
+| :--- | :--- | :--- |
+| **Performance** | Server-side heavy, often reliant on caching plugins. | **Static-first (Astro)**. Zero-JS by default. Instant load times. |
+| **Security** | High attack surface (SQL injection, plugin vulnerabilities). | **Immutable Content**. Flat-file storage removes SQL injection risks completely. |
+| **Maintenance** | "Plugin Hell", constant updates, version conflicts. | **Composer-managed dependencies**. Controlled, atomic updates via Git. |
+| **Scalability** | Hard to scale horizontally without complex architecture. | **Serverless-ready**. Frontend can be deployed to Edge; backend is API-driven. |
+
+### Migration Strategy
+1.  **Content Modeling**: Re-mapping strict schema from Kentico/WP to Statamic Blueprints.
+2.  **Data Import**: utilizing Statamic's importers or custom scripts to migrate existing content.
+3.  **SEO Preservation**: 301 Redirects are managed natively in Statamic to ensure no ranking loss during the switch.
+
+---
+
+## 3. Technological Stack
 
 ### Frontend Application (`jwa-astro`)
 *   **Framework**: [Astro v5](https://astro.build/)
