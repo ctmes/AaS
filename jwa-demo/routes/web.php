@@ -6,12 +6,36 @@ use Illuminate\Support\Facades\Route;
 //    'title' => 'Example'
 // ]);
 
-Route::get('debug-config', function () {
-    return [
-        'api_enabled' => config('statamic.api.enabled'),
-        'api_route' => config('statamic.api.route'),
-        'api_middleware' => config('statamic.api.middleware'),
-        'collections' => \Statamic\Facades\Collection::all()->map->handle()->values(),
-        'env_api_enabled' => env('STATAMIC_API_ENABLED'),
-    ];
+Route::group(['prefix' => 'custom-api'], function () {
+    Route::get('posts', function () {
+        return \Statamic\Facades\Entry::query()
+            ->where('collection', 'posts')
+            ->where('published', true)
+            ->get()
+            ->map(function ($entry) {
+                return [
+                    'id' => $entry->id(),
+                    'title' => $entry->get('title'),
+                    'excerpt' => $entry->get('excerpt'),
+                    'date' => $entry->date(),
+                    'slug' => $entry->slug(),
+                ];
+            });
+    });
+
+    Route::get('products', function () {
+        return \Statamic\Facades\Entry::query()
+            ->where('collection', 'products')
+            ->where('published', true)
+            ->get()
+            ->map(function ($entry) {
+                return [
+                    'id' => $entry->id(),
+                    'title' => $entry->get('title'),
+                    'description' => $entry->get('description'),
+                    'price' => $entry->get('price'),
+                    'slug' => $entry->slug(),
+                ];
+            });
+    });
 });
