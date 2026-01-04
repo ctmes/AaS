@@ -1,5 +1,14 @@
 ---
-import { getPost } from '../../lib/statamic';
+import { getPost, getPosts } from '../../lib/statamic';
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  // Ensure we handle the response structure correctly (posts.data or just posts)
+  const postsData = posts.data || posts;
+  return postsData.map((post: any) => ({
+    params: { slug: post.slug },
+  }));
+}
 
 const { slug } = Astro.params;
 const post = await getPost(slug);

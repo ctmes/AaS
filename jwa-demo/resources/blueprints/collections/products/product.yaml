@@ -1,0 +1,42 @@
+title: Product
+fields:
+  -
+    handle: title
+    field:
+      type: text
+      required: true
+      validate:
+        - required
+  -
+    handle: content
+    field:
+      type: markdown
+      display: Content
+      localizable: true
+  -
+    handle: description
+    field:
+      type: textarea
+      display: Description
+  -
+    handle: price
+    field:
+      type: text
+      display: Price
+      input_type: number
+  -
+    handle: gallery
+    field:
+      type: assets
+      container: assets
+      folder: products
+      restrict: false
+      allow_uploads: true
+      display: Gallery
+      mode: grid
+      max_files: 20
+  -
+    handle: slug
+    field:
+      type: slug
+      localizable: true

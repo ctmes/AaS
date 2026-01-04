@@ -55,6 +55,7 @@ Route::group(['prefix' => 'custom-api'], function () {
                     'title' => $entry->get('title'),
                     'description' => $entry->get('description'),
                     'price' => $entry->get('price'),
+                    'gallery' => collect($entry->get('gallery'))->map(fn($img) => \Statamic\Facades\Asset::find($img)?->absoluteUrl())->filter()->values(),
                     'slug' => $entry->slug(),
                 ];
             });
@@ -77,6 +78,7 @@ Route::group(['prefix' => 'custom-api'], function () {
             'description' => $entry->get('description'),
             'price' => $entry->get('price'),
             'content' => $entry->get('content'),
+            'gallery' => collect($entry->get('gallery'))->map(fn($img) => \Statamic\Facades\Asset::find($img)?->absoluteUrl())->filter()->values(),
             'slug' => $entry->slug(),
         ];
     });
