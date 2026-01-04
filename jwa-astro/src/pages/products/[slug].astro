@@ -1,5 +1,6 @@
 ---
 import { getProduct, getProducts } from '../../lib/statamic';
+import { marked } from 'marked';
 
 export async function getStaticPaths() {
   const products = await getProducts();
@@ -18,6 +19,7 @@ if (!product) {
 
 <html>
   <head>
+    <meta charset="utf-8" />
     <title>{product.title} - JWA Products</title>
     <style>
       body { 
@@ -55,7 +57,7 @@ if (!product) {
     </style>
   </head>
   <body>
-    <a href="/products" class="back-link">← Back to Products</a>
+    <a href="/products" class="back-link">&larr; Back to Products</a>
     <div class="product-detail">
       <h1>{product.title}</h1>
       {product.price && <div class="price">${product.price}</div>}
@@ -69,7 +71,7 @@ if (!product) {
       )}
 
       <div class="description">{product.description}</div>
-      {product.content && <div class="content" set:html={product.content} />}
+      {product.content && <div class="content" set:html={marked.parse(product.content)} />}
     </div>
   </body>
 </html>

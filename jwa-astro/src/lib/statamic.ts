@@ -1,4 +1,4 @@
-const STATAMIC_API = 'https://aas-production.up.railway.app/custom-api';
+const STATAMIC_API = import.meta.env.PUBLIC_STATAMIC_URL || 'http://localhost:8000/custom-api';
 
 export async function getEntries(collection: string) {
     try {
