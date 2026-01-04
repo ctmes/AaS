@@ -33,15 +33,18 @@ const products = await getProducts();
   <body>
     <h1>JWA Composite Matting Products</h1>
     <div class="products">
-      {products.data && products.data.map((product) => (
+    <div class="products">
+      {products && products.length > 0 ? (
+        products.map((product: any) => (
         <div class="product">
           <h2>{product.title}</h2>
           <p>{product.description || 'High-quality composite matting solution'}</p>
         </div>
-      ))}
-      {(!products.data || products.data.length === 0) && (
+      ))
+      ) : (
         <p>No products found or failed to load.</p>
       )}
+    </div>
     </div>
   </body>
 </html>

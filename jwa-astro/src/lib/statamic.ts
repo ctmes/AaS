@@ -1,8 +1,8 @@
-const STATAMIC_API = 'https://aas-production.up.railway.app/api';
+const STATAMIC_API = 'https://aas-production.up.railway.app/custom-api';
 
 export async function getEntries(collection: string) {
     try {
-        const response = await fetch(`${STATAMIC_API}/collections/${collection}/entries`);
+        const response = await fetch(`${STATAMIC_API}/${collection}`);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
