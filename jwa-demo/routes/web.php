@@ -23,6 +23,27 @@ Route::group(['prefix' => 'custom-api'], function () {
             });
     });
 
+    Route::get('posts/{slug}', function ($slug) {
+        $entry = \Statamic\Facades\Entry::query()
+            ->where('collection', 'posts')
+            ->where('slug', $slug)
+            ->where('published', true)
+            ->first();
+
+        if (!$entry) {
+            abort(404);
+        }
+
+        return [
+            'id' => $entry->id(),
+            'title' => $entry->get('title'),
+            'excerpt' => $entry->get('excerpt'),
+            'content' => $entry->get('content'),
+            'date' => $entry->date(),
+            'slug' => $entry->slug(),
+        ];
+    });
+
     Route::get('products', function () {
         return \Statamic\Facades\Entry::query()
             ->where('collection', 'products')
@@ -37,5 +58,26 @@ Route::group(['prefix' => 'custom-api'], function () {
                     'slug' => $entry->slug(),
                 ];
             });
+    });
+
+    Route::get('products/{slug}', function ($slug) {
+        $entry = \Statamic\Facades\Entry::query()
+            ->where('collection', 'products')
+            ->where('slug', $slug)
+            ->where('published', true)
+            ->first();
+
+        if (!$entry) {
+            abort(404);
+        }
+
+        return [
+            'id' => $entry->id(),
+            'title' => $entry->get('title'),
+            'description' => $entry->get('description'),
+            'price' => $entry->get('price'),
+            'content' => $entry->get('content'),
+            'slug' => $entry->slug(),
+        ];
     });
 });

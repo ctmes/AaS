@@ -30,6 +30,11 @@ const posts = await getPosts();
 				padding: 2rem;
 				margin-bottom: 2rem;
 				border: 1px solid #333;
+				transition: transform 0.2s, border-color 0.2s;
+			}
+			.post:hover {
+				transform: translateY(-2px);
+				border-color: #4ecdc4;
 			}
 			.post-title {
 				font-size: 1.8rem;
@@ -74,13 +79,15 @@ const posts = await getPosts();
 		
 		{posts.data && posts.data.length > 0 ? (
 			posts.data.map((post: any) => (
-				<article class="post">
-					<h2 class="post-title">{post.title}</h2>
-					<div class="post-meta">
-						{post.date && <span>Published: {new Date(post.date).toLocaleDateString()}</span>}
-					</div>
-					{post.content && <div set:html={post.content} />}
-				</article>
+				<a href={`/blog/${post.slug}`} style="text-decoration: none; color: inherit; display: block;">
+					<article class="post">
+						<h2 class="post-title">{post.title}</h2>
+						<div class="post-meta">
+							{post.date && <span>Published: {new Date(post.date).toLocaleDateString()}</span>}
+						</div>
+						{post.excerpt && <p>{post.excerpt}</p>}
+					</article>
+				</a>
 			))
 		) : (
 			<div>

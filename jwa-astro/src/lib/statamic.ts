@@ -17,6 +17,14 @@ export async function getPosts() {
     return getEntries('posts');
 }
 
+export async function getPost(slug: string) {
+    return getEntries(`posts/${slug}`);
+}
+
 export async function getProducts() {
     return getEntries('products');
+}
+
+export async function getProduct(slug: string) {
+    return getEntries(`products/${slug}`);
 }

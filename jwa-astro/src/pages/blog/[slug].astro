@@ -1,0 +1,76 @@
+---
+import { getPost } from '../../lib/statamic';
+
+const { slug } = Astro.params;
+const post = await getPost(slug);
+
+if (!post) {
+  return Astro.redirect('/404');
+}
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>{post.title} - Blog</title>
+    <style>
+      body {
+        font-family: system-ui, -apple-system, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 2rem;
+        background: #0f0f0f;
+        color: #ffffff;
+      }
+      .post-detail {
+        background: #1a1a1a;
+        border-radius: 12px;
+        padding: 2rem;
+        border: 1px solid #333;
+      }
+      h1 {
+        font-size: 2.5rem;
+        color: #ff6b6b;
+        margin-bottom: 1rem;
+      }
+      .post-meta {
+        color: #888;
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid #333;
+      }
+      .content {
+        line-height: 1.8;
+        font-size: 1.1rem;
+        color: #e0e0e0;
+      }
+      .nav {
+        margin-bottom: 2rem;
+      }
+      .nav a {
+        color: #4ecdc4;
+        text-decoration: none;
+        margin-right: 1rem;
+        font-weight: 500;
+      }
+      .nav a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="nav">
+      <a href="/">Home</a>
+      <a href="/blog">← Back to Blog</a>
+    </nav>
+
+    <article class="post-detail">
+      <h1>{post.title}</h1>
+      <div class="post-meta">
+        {post.date && <span>Published: {new Date(post.date).toLocaleDateString()}</span>}
+      </div>
+      {post.content && <div class="content" set:html={post.content} />}
+    </article>
+  </body>
+</html>
