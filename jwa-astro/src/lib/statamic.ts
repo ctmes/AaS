@@ -1,4 +1,9 @@
-const STATAMIC_API = import.meta.env.PUBLIC_STATAMIC_URL || 'http://localhost:8000/custom-api';
+// Change it to this:
+const STATAMIC_API = import.meta.env.STATAMIC_API_URL;
+
+if (!STATAMIC_API) {
+    throw new Error("STATAMIC_API_URL is undefined. Check Cloudflare Dashboard vars.");
+}
 
 export async function getEntries(collection: string) {
     try {
