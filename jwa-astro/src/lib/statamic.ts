@@ -34,21 +34,29 @@ export async function getGlobal(handle: string) {
 }
 
 export async function getApplications() {
-    return getEntries('applications');
+    return getEntries('collections/applications/entries');
 }
 
 export async function getPosts() {
-    return getEntries('posts');
+    return getEntries('collections/posts/entries');
 }
 
 export async function getPost(slug: string) {
-    return getEntries(`posts/${slug}`);
+    // Note: This assumes filtering by slug on the entries endpoint, 
+    // or you might need to fetch all and find. 
+    // Statamic doesn't show by slug by default on a simple path unless configured.
+    // For now, let's try the filter approach if the API supports it, or leave as is if undecided.
+    // But '/posts/slug' is definitely wrong.
+    // Let's use filter.
+    const data = await getEntries(`collections/posts/entries?filter[slug]=${slug}`);
+    return data[0];
 }
 
 export async function getProducts() {
-    return getEntries('products');
+    return getEntries('collections/products/entries');
 }
 
 export async function getProduct(slug: string) {
-    return getEntries(`products/${slug}`);
+    const data = await getEntries(`collections/products/entries?filter[slug]=${slug}`);
+    return data[0];
 }
