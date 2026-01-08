@@ -1,0 +1,70 @@
+---
+import { getCollection } from 'astro:content';
+import CaseStudyItem from './CaseStudyItem.astro';
+
+const caseStudiesEntries = await getCollection('caseStudies');
+const caseStudies = caseStudiesEntries.map(entry => entry.data);
+---
+
+<div class="case-studies-section">
+    <div class="uk-container uk-container-center">
+        <h2>Case studies from all industries</h2>
+        <div class="case-studies-grid">
+            {caseStudies.map(study => (
+                <div class="grid-col">
+                    <CaseStudyItem {...study} />
+                </div>
+            ))}
+             {/* If we have fewer than 3 items, we might want placeholders or just flex start behavior */}
+        </div>
+        
+        <div class="action-btn">
+             <a href="/case-studies" class="btn btn-border">Browse through all our case studies</a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .case-studies-section {
+        padding: 80px 0;
+        background-color: #f0f0f0;
+        /* Placeholder for parallax background */
+        background-image: url('/JWA/media/images/parallax-bg.jpg'); 
+        background-attachment: fixed;
+        background-size: cover;
+        background-position: center;
+        text-align: center;
+    }
+    .uk-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+    h2 {
+        font-size: 2.5rem;
+        margin-bottom: 40px;
+        color: #fff; /* Assuming dark bg */
+        text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    }
+    .case-studies-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        margin-bottom: 40px;
+        text-align: left;
+    }
+    .btn-border {
+        display: inline-block;
+        padding: 15px 30px;
+        border: 2px solid #fff;
+        color: #fff;
+        text-decoration: none;
+        text-transform: uppercase;
+        font-weight: bold;
+        transition: all 0.3s;
+    }
+    .btn-border:hover {
+        background: #fff;
+        color: #333;
+    }
+</style>

@@ -3,6 +3,10 @@ import { getEntry, getCollection } from 'astro:content';
 import HomeHero from '../components/HomeHero.astro';
 import ApplicationGrid from '../components/ApplicationGrid.astro';
 import ContentBlock from '../components/ContentBlock.astro';
+import Awards from '../components/Awards.astro';
+import CaseStudies from '../components/CaseStudies.astro';
+import ClientSlider from '../components/ClientSlider.astro';
+import Layout from '../layouts/Layout.astro';
 
 const homepageEntry = await getEntry('globals', 'homepage');
 const homepage = homepageEntry ? homepageEntry.data : null;
@@ -29,31 +33,22 @@ const specialistsData = homepage ? {
 } : {};
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<title>{homepage ? homepage.title : 'JWA Mats'}</title>
-        <!-- Import any global styles or fonts here -->
-        <style>
-             @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&display=swap');
-             body { font-family: 'Nunito Sans', sans-serif; margin: 0; }
-        </style>
-	</head>
-	<body>
-        {homepage ? (
-            <>
-                <HomeHero {...heroData} />
-                <ContentBlock {...introData} /> 
-                <ApplicationGrid applications={applications} />
-                <ContentBlock {...specialistsData} />
-            </>
-        ) : (
-             <div style="padding: 50px; text-align: center;">
-                <h1>Backend Connection Error</h1>
-                <p>Could not load homepage data from Statamic.</p>
-            </div>
-        )}
-	</body>
-</html>
+<Layout title={homepage ? homepage.title : 'JWA Mats'}>
+    {homepage ? (
+        <>
+            <HomeHero {...heroData} />
+            <ContentBlock {...introData} /> 
+            <ApplicationGrid applications={applications} />
+            <ContentBlock {...specialistsData}>
+                <Awards />
+            </ContentBlock>
+            <CaseStudies />
+            <ClientSlider />
+        </>
+    ) : (
+            <div style="padding: 50px; text-align: center;">
+            <h1>Backend Connection Error</h1>
+            <p>Could not load homepage data from Statamic.</p>
+        </div>
+    )}
+</Layout>

@@ -1,0 +1,62 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  image: string;
+  url: string;
+}
+
+const { title, description, image, url } = Astro.props;
+---
+
+<a href={url} class="application-item-link">
+  <div class="application-item">
+    <img src={image} alt={title} />
+    <div class="application-text">
+        <h3>{title}</h3>
+        <div class="desc">{description}</div>
+    </div>
+  </div>
+</a>
+
+<style>
+    .application-item-link {
+        text-decoration: none;
+        color: inherit;
+        display: block;
+    }
+    .application-item {
+        position: relative;
+        overflow: hidden;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        transition: transform 0.3s;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    .application-item:hover {
+        transform: translateY(-5px);
+    }
+    .application-item img {
+        width: 100%;
+        height: auto; 
+        display: block;
+        object-fit: cover;
+        aspect-ratio: 1 / 1; /* Trying to match the 750x750 hint in the user path */
+    }
+    .application-text {
+        padding: 20px;
+        background: #fff;
+        color: #333;
+        flex-grow: 1;
+    }
+    .application-text h3 {
+        margin: 0 0 10px;
+        font-size: 1.25rem;
+    }
+    .application-text .desc {
+        font-size: 0.9rem;
+        color: #666;
+    }
+</style>

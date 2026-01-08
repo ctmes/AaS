@@ -1,0 +1,136 @@
+---
+---
+<header class="header">
+  <div class="uk-container uk-container-center">
+    <div class="logo internal">
+        <a href="/">
+            <img src="/JWA/media/images/logo.svg" alt="JWA">
+        </a>
+    </div>
+    <span class="navtoggle"><span id="navtoggle" role="button"></span></span>
+    <div class="navigationmain">
+      <div id="mainnavigation">
+        <nav class="uk-navbar uk-navbar-attached">
+          <ul class="uk-navbar-nav uk-hidden-small uk-hidden-medium">
+            <li><a href="/applications">Applications</a></li>
+            <li class="uk-parent" data-uk-dropdown="{remaintime: 0}" aria-haspopup="true" aria-expanded="false">
+                <a href="/bog-mats">Bog Mats</a>
+                <div class="uk-dropdown uk-dropdown-navbar">
+                    <ul class="uk-nav uk-nav-navbar">
+                        <li><a href="/bog-mats/dura-base-matting">Heavy-Duty Interlocking Mats : DuraBase</a></li>
+                        <li><a href="/bog-mats/prozone-matting">Man-Portable Interlocking Mats : ProZone</a></li>
+                        <li><a href="/bog-mats/protech-matting">Man-Portable Bog Mats : ProTech</a></li>
+                        <li><a href="/bog-mats/trackout-control-matting">Trackout Control Matting</a></li>
+                        <li><a href="/bog-mats/jwa-composite-mat-management-services">JWA Composite Mat Management Services</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li class="uk-parent" data-uk-dropdown="{remaintime: 0}" aria-haspopup="true" aria-expanded="false">
+                <a href="/industries">Industries</a>
+                <div class="uk-dropdown uk-dropdown-navbar uk-dropdown-bottom">
+                    <ul class="uk-nav uk-nav-navbar">
+                      <li><a href="/industries/oil-and-gas">Oil and Gas</a></li>
+                      <li><a href="/industries/events">Events</a></li>
+                      <li><a href="/industries/rail">Rail</a></li>
+                      <li><a href="/industries/renewables">Renewables</a></li>
+                      <li><a href="/industries/utilities">Utilities</a></li>
+                      <li><a href="/industries/building">Building</a></li>
+                      <li><a href="/industries/defence">Defence</a></li>
+                      <li><a href="/industries/mining">Mining</a></li>
+                      <li><a href="/industries/aviation">Aviation</a></li>
+                      <li><a href="/industries/council-works">Council Works</a></li>
+                      <li><a href="/industries/coastal">Coastal</a></li>
+                      <li><a href="/industries/erosion-and-sediment-control">Erosion and Sediment Control</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li class="uk-parent" data-uk-dropdown="{remaintime: 0}" aria-haspopup="true" aria-expanded="false">
+                <a href="/case-studies">Case Studies</a>
+                <div class="uk-dropdown uk-dropdown-navbar">
+                    <ul class="uk-nav uk-nav-navbar">
+                      <li><a href="/case-studies">Recent Projects</a></li>
+                      <li><a href="/case-studies/video-gallery">Video Gallery</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li><a href="/news">News</a></li>
+            <li class="uk-parent" data-uk-dropdown="{remaintime: 0}" aria-haspopup="true" aria-expanded="false">
+                <a href="/about-us">About Us</a>
+                <div class="uk-dropdown uk-dropdown-navbar uk-dropdown-bottom">
+                    <ul class="uk-nav uk-nav-navbar">
+                      <li><a href="/about-us">About JWA</a></li>
+                      <li><a href="/about-us/our-environmental-practices">Our Environmental Practices</a></li>
+                      <li><a href="/about-us/our-capabilities">Our Capabilities</a></li>
+                    </ul>
+                </div>
+            </li>
+          </ul>
+          <div id="mobilenavigationtoggle" class="slidenavtoggle" role="button">
+            <div class="hamburger hamburger--elastic js-hamburger">
+              <div class="hamburger-box">
+                <div class="hamburger-inner"></div>
+              </div>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </div>
+    <a href="tel:1800264628" class="phone-btn">1800 264 628</a> 
+    <a href="/get-a-quote" class="quote-btn animate">get a quote</a>
+  </div>
+</header>
+<style>
+/* Simplified styles to make header usable if global CSS is missing */
+.header {
+    background: #fff;
+    padding: 10px 0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.uk-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+}
+.logo img {
+    height: 50px;
+}
+.uk-navbar-nav {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.uk-navbar-nav > li > a {
+    text-decoration: none;
+    color: #333;
+    padding: 0 15px;
+    font-weight: 600;
+}
+.phone-btn, .quote-btn {
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+.phone-btn {
+    color: #333;
+}
+.quote-btn {
+    background: #f0a500;
+    color: #fff;
+}
+/* Hide dropdowns by default in this basic style */
+.uk-dropdown {
+    display: none;
+    position: absolute;
+    background: #fff;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    padding: 10px;
+}
+.uk-parent:hover .uk-dropdown {
+    display: block;
+}
+</style>

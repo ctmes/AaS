@@ -1,0 +1,101 @@
+---
+const clients = [
+    { name: 'CPB', img: '/JWA/media/images/CPBLogo-(1).jpg', url: 'https://www.cpbcon.com.au/en' },
+    { name: 'John Holland', img: '/JWA/media/images/John-Holland-Logo_1.jpg', url: '#' },
+    { name: 'Queensland Rail', img: '/JWA/media/images/qr-logo-350x150.jpg', url: 'http://queenslandrail.com.au/' },
+    { name: 'Powerlink', img: '/JWA/media/images/Powerlink.png', url: '#' },
+    { name: 'Level Crossing Removal Project', img: '/JWA/media/images/lxrp-logo-350x150.jpg', url: '#' },
+    { name: 'Commonwealth Games 2018', img: '/JWA/media/images/2018-Commonwealth-Games-logo-300x169.jpg', url: '#' },
+    { name: 'WestConnex', img: '/JWA/media/images/970px-WestConnex_Logo.png', url: '#' },
+    { name: 'West Gate Tunnel Project', img: '/JWA/media/images/wgtp-logo-350x150.jpg', url: '#' },
+    { name: 'Santos', img: '/JWA/media/images/Santos.png', url: 'https://www.santos.com/' },
+    { name: 'Chevron', img: '/JWA/media/images/Chevron.png', url: '#' },
+    { name: 'Exxon Mobil', img: '/JWA/media/images/ExxonMobil.png', url: '#' },
+    { name: 'Origin', img: '/JWA/media/images/Origin.png', url: '#' },
+    { name: 'Arrow Energy', img: '/JWA/media/images/ArrowEnergy.png', url: '#' },
+    { name: 'QGC', img: '/JWA/media/images/QGC.png', url: '#' },
+    { name: 'Schlumberger', img: '/JWA/media/images/Schlumberger.png', url: '#' },
+    { name: 'Oil Search', img: '/JWA/media/images/OilSearch.png', url: '#' },
+    { name: 'Weatherford', img: '/JWA/media/images/Weatherford.png', url: '#' },
+    { name: 'Woodside', img: '/JWA/media/images/Woodside.png', url: '#' },
+    { name: 'Spiecapag', img: '/JWA/media/images/Specadag.png', url: '#' },
+    { name: 'Rio Tinto', img: '/JWA/media/images/RioTinto.png', url: '#' },
+];
+---
+
+<div class="client-slider-section">
+    <div class="uk-container uk-container-center">
+        <h2>Our Clients and Major Projects</h2>
+    </div>
+    <div class="slider-container">
+        <div class="slider-track">
+             {clients.map(client => (
+                <div class="slide">
+                    <a href={client.url} target="_blank" rel="noopener noreferrer">
+                        <img src={client.img} alt={client.name} />
+                    </a>
+                </div>
+            ))}
+            {/* Duplicate for infinite loop effect */}
+            {clients.map(client => (
+                <div class="slide">
+                    <a href={client.url} target="_blank" rel="noopener noreferrer">
+                        <img src={client.img} alt={client.name} />
+                    </a>
+                </div>
+            ))}
+        </div>
+    </div>
+</div>
+
+<style>
+    .client-slider-section {
+        padding: 50px 0;
+        background: #fff;
+        overflow: hidden;
+    }
+    .uk-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    h2 {
+        font-size: 2rem;
+        color: #333;
+    }
+    .slider-container {
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+    }
+    .slider-track {
+        display: flex;
+        width: max-content;
+        animation: scroll 40s linear infinite;
+    }
+    .slide {
+        width: 200px;
+        padding: 0 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .slide img {
+        max-width: 100%;
+        max-height: 80px;
+        filter: grayscale(100%);
+        opacity: 0.7;
+        transition: all 0.3s;
+    }
+    .slide:hover img {
+        filter: grayscale(0%);
+        opacity: 1;
+    }
+    
+    @keyframes scroll {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+    }
+</style>

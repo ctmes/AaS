@@ -1,0 +1,103 @@
+---
+interface Props {
+  title: string;
+  subtitle: string;
+  description: string;
+  image: string;
+  url?: string;
+  icon?: string;
+}
+
+const { title, subtitle, description, image, url = '#', icon = 'rail' } = Astro.props;
+---
+<a href={url} class="case-study-item">
+    <div class="case-study-card">
+        <div class="image-wrapper">
+             <img src={image} alt={title} />
+        </div>
+        <div class="content">
+            <div class="icon-wrapper">
+                {icon === 'rail' && (
+                    <svg xmlns="http://www.w3.org/2000/svg" class="cases-icon" viewBox="0 0 19.7 20.9">
+                         <polygon class="st0" points="14.75,17.06 0.34,17.06 1.07,7.36 14.03,7.36 "></polygon>
+                         <polygon class="st0" points="12.4,15.48 2.69,15.48 3.18,8.94 11.91,8.94 "></polygon>
+                         <line class="st0" x1="7.55" y1="8.94" x2="7.55" y2="15.48"></line>
+                         <line class="st0" x1="2.94" y1="12.21" x2="12.16" y2="12.21"></line>
+                         <rect x="6.13" y="17.06" class="st0" width="2.71" height="3.62"></rect>
+                         <line class="st0" x1="3.9" y1="20.68" x2="11.13" y2="20.68"></line>
+                     </svg>
+                )}
+                {icon === 'marine' && (
+                    <svg xmlns="http://www.w3.org/2000/svg" class="cases-icon" viewBox="0 0 29.56 21.19">
+                         <g><path class="st0" d="M0,19.94c1.64,0,1.64,1,3.28,1s1.64-1,3.29-1,1.64,1,3.28,1,1.64-1,3.28-1,1.65-1,3.29-1,1.64,1,3.28,1,1.65-1,3.29-1,1.65,1,3.29,1"></path>
+                         <polyline class="st0" points="3.07 18.94 1.65 14.99 22.83 14.99 23.4 14.21 27.91 14.21 25.49 18.69"></polyline>
+                         <rect class="st0" x="3.06" y="10.48" width="6.96" height="4.51"></rect></g>
+                    </svg>
+                )}
+                  {/* Default icon if none matches */}
+                {!['rail', 'marine'].includes(icon) && (
+                     <div style="width: 20px; height: 20px; background: #ccc;"></div>
+                )}
+            </div>
+            <h3>{title}</h3>
+            <span class="subtitle">{subtitle}</span>
+            <div class="desc">{description}</div>
+        </div>
+    </div>
+</a>
+
+<style>
+    .case-study-item {
+        text-decoration: none;
+        color: inherit;
+        display: block;
+    }
+    .case-study-card {
+        background: #fff;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        transition: transform 0.3s ease;
+        overflow: hidden;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    .case-study-card:hover {
+        transform: translateY(-5px);
+    }
+    .image-wrapper img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+    .content {
+        padding: 20px;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+    }
+    .icon-wrapper {
+        margin-bottom: 15px;
+    }
+    .cases-icon {
+        width: 30px;
+        height: 30px;
+        fill: #f0a500;
+        stroke: #f0a500;
+    }
+    h3 {
+        margin: 0 0 5px;
+        font-size: 1.2rem;
+        color: #333;
+    }
+    .subtitle {
+        color: #888;
+        font-size: 0.9rem;
+        margin-bottom: 15px;
+        display: block;
+    }
+    .desc {
+        color: #555;
+        font-size: 0.95rem;
+        line-height: 1.5;
+    }
+</style>

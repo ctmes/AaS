@@ -35,10 +35,23 @@ const products = defineCollection({
     }).passthrough(),
 });
 
+const caseStudies = defineCollection({
+    type: 'content',
+    schema: z.object({
+        title: z.string(),
+        subtitle: z.string(),
+        description: z.string(),
+        image: z.string(),
+        icon: z.string().optional(),
+        date: z.date().optional(),
+    }),
+});
+
 export const collections = {
     'globals': globals,
     'cms_pages': pages,
     'applications': applications,
     'posts': posts,
     'products': products,
+    'caseStudies': caseStudies,
 };
