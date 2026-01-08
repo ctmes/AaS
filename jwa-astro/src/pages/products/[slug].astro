@@ -1,20 +1,17 @@
 ---
-import { getProduct, getProducts } from '../../lib/statamic';
-import { marked } from 'marked';
+import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
-  const products = await getProducts();
-  return products.map((product: any) => ({
-    params: { slug: product.slug },
+  const products = await getCollection('products');
+  return products.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry },
   }));
 }
 
-const { slug } = Astro.params;
-const product = await getProduct(slug);
-
-if (!product) {
-  return Astro.redirect('/404');
-}
+const { entry } = Astro.props;
+const product = entry.data;
+const { Content } = await entry.render();
 ---
 
 <html>
@@ -71,7 +68,7 @@ if (!product) {
       )}
 
       <div class="description">{product.description}</div>
-      {product.content && <div class="content" set:html={marked.parse(product.content)} />}
+      <div class="content"><Content /></div>
     </div>
   </body>
 </html>

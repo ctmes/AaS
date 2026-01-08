@@ -1,6 +1,7 @@
 ---
-import { getProducts } from '../lib/statamic';
-const products = await getProducts();
+import { getCollection } from 'astro:content';
+const productsEntries = await getCollection('products');
+const products = productsEntries.map(entry => ({ ...entry.data, slug: entry.slug }));
 ---
 
 <html>

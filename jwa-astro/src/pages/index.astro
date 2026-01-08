@@ -1,15 +1,18 @@
 ---
-import { getGlobal, getApplications } from '../lib/statamic';
+import { getEntry, getCollection } from 'astro:content';
 import HomeHero from '../components/HomeHero.astro';
 import ApplicationGrid from '../components/ApplicationGrid.astro';
 import ContentBlock from '../components/ContentBlock.astro';
 
-const homepage = await getGlobal('homepage');
-const applications = await getApplications();
+const homepageEntry = await getEntry('globals', 'homepage');
+const homepage = homepageEntry ? homepageEntry.data : null;
+
+const applicationsEntries = await getCollection('applications');
+const applications = applicationsEntries.map(entry => entry.data);
 
 const heroData = homepage ? {
     title: homepage.hero_title,
-    video: homepage.hero_video, // Statamic might return asset object or URL depending on hydration
+    video: homepage.hero_video,
     image: homepage.hero_image,
 } : {};
 

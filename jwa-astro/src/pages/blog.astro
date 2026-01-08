@@ -1,7 +1,8 @@
 ---
-import { getPosts } from '../lib/statamic';
+import { getCollection } from 'astro:content';
 
-const posts = await getPosts();
+const postEntries = await getCollection('posts');
+const posts = postEntries.map(entry => ({ ...entry.data, slug: entry.slug }));
 ---
 
 <html lang="en">
@@ -77,8 +78,8 @@ const posts = await getPosts();
 		
 		<h1>Blog Posts</h1>
 		
-		{posts.data && posts.data.length > 0 ? (
-			posts.data.map((post: any) => (
+		{posts && posts.length > 0 ? (
+			posts.map((post: any) => (
 				<a href={`/blog/${post.slug}`} style="text-decoration: none; color: inherit; display: block;">
 					<article class="post">
 						<h2 class="post-title">{post.title}</h2>

@@ -1,21 +1,17 @@
 ---
-import { getPost, getPosts } from '../../lib/statamic';
+import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
-  const posts = await getPosts();
-  // Ensure we handle the response structure correctly (posts.data or just posts)
-  const postsData = posts.data || posts;
-  return postsData.map((post: any) => ({
-    params: { slug: post.slug },
+  const posts = await getCollection('posts');
+  return posts.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry },
   }));
 }
 
-const { slug } = Astro.params;
-const post = await getPost(slug);
-
-if (!post) {
-  return Astro.redirect('/404');
-}
+const { entry } = Astro.props;
+const post = entry.data;
+const { Content } = await entry.render();
 ---
 
 <html lang="en">
@@ -79,7 +75,7 @@ if (!post) {
       <div class="post-meta">
         {post.date && <span>Published: {new Date(post.date).toLocaleDateString()}</span>}
       </div>
-      {post.content && <div class="content" set:html={post.content} />}
+      {post.content && <div class="content"><Content /></div>}
     </article>
   </body>
 </html>
