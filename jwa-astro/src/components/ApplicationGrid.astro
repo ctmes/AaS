@@ -1,0 +1,70 @@
+---
+interface Props {
+  applications: any[];
+}
+
+const { applications } = Astro.props;
+
+---
+
+<div class="casetudy-landing application-landing homepage">
+    <div class="uk-container uk-container-center">
+        <h1 class="text-center">Custom Matting Solutions Fit For Every Situation</h1>
+        <!-- Filters could go here -->
+    </div>
+    <div class="application-list">
+        <div class="grid">
+            {applications.map((app: any) => (
+                <div class="grid-item">
+                    <a href={`/applications/${app.slug}`}>
+                        <div class="application-item">
+                             <img src={app.main_image ? app.main_image.url : "https://placehold.co/750x750"} alt={app.title} />
+                            <div class="application-text">
+                                <h3>{app.title}</h3>
+                                <div class="desc">{app.description}</div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            ))}
+        </div>
+    </div>
+</div>
+
+<style>
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+        padding: 20px;
+    }
+    .text-center { text-align: center; margin-bottom: 30px; }
+    .application-item {
+        position: relative;
+        overflow: hidden;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        transition: transform 0.3s;
+    }
+    .application-item:hover {
+        transform: translateY(-5px);
+    }
+    .application-item img {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+    .application-text {
+        padding: 20px;
+        background: #fff;
+        color: #333;
+    }
+    .application-text h3 {
+        margin: 0 0 10px;
+        font-size: 1.25rem;
+    }
+    .application-text .desc {
+        font-size: 0.9rem;
+        color: #666;
+    }
+</style>

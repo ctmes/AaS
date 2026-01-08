@@ -1,0 +1,78 @@
+---
+interface Props {
+  title?: string;
+  video?: any;
+  image?: any;
+}
+const { title, video, image } = Astro.props;
+
+---
+
+<div class="herobanner">
+  <div class="herobanner-wrapper herobanner-home">
+    <picture>
+        <img src={image || "https://placehold.co/1920x670"} alt="Hero Image" />
+    </picture>
+    <div class="herobanner-video">
+        <video autoplay loop muted playsinline>
+            <source src={video || "/JWA/media/JWA-Videos/Tracking-alongside.mp4"} type="video/mp4">
+        </video>
+    </div>
+    <div class="herobanner-text">
+        <div class="uk-container uk-container-center">
+            {title && <h2>{title}</h2>}
+        </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.herobanner {
+    position: relative;
+    overflow: hidden;
+    height: 670px;
+}
+.herobanner-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+.herobanner-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.herobanner-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+.herobanner-video video {
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.herobanner-text {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    transform: translateY(-50%);
+    z-index: 10;
+    text-align: center;
+    color: white;
+}
+.herobanner-text h2 {
+    font-size: 3rem;
+    font-weight: bold;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+</style>

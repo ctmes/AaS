@@ -1,0 +1,37 @@
+tabs:
+  main:
+    display: Main
+    sections:
+      -
+        fields:
+          -
+            handle: title
+            field:
+              type: text
+              required: true
+          -
+            handle: main_image
+            field:
+              container: assets
+              mode: list
+              restrict: false
+              allow_uploads: true
+              type: assets
+              display: 'Main Image'
+              max_files: 1
+          -
+            handle: description
+            field:
+              type: textarea
+              display: Description
+  sidebar:
+    display: Sidebar
+    sections:
+      -
+        fields:
+          -
+            handle: slug
+            field:
+              type: slug
+              localizable: true
+title: Application

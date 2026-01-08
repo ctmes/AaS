@@ -1,0 +1,69 @@
+tabs:
+  main:
+    display: Main
+    sections:
+      -
+        fields:
+          -
+            handle: hero_title
+            field:
+              type: text
+              display: 'Hero Title'
+              width: 100
+          -
+            handle: hero_video
+            field:
+              container: assets
+              mode: list
+              restrict: false
+              allow_uploads: true
+              type: assets
+              display: 'Hero Video'
+              max_files: 1
+              width: 50
+          -
+            handle: hero_image
+            field:
+              container: assets
+              mode: list
+              restrict: false
+              allow_uploads: true
+              type: assets
+              display: 'Hero Image (Mobile Fallback)'
+              max_files: 1
+              width: 50
+          -
+            handle: intro_heading
+            field:
+              type: text
+              display: 'Intro Heading'
+              width: 100
+          -
+            handle: intro_text
+            field:
+              type: markdown
+              display: 'Intro Text'
+      -
+        display: 'Specialists Section'
+        fields:
+          -
+            handle: specialists_heading
+            field:
+              type: text
+              display: Heading
+          -
+            handle: specialists_content
+            field:
+              type: markdown
+              display: Content
+          -
+            handle: specialists_cta_text
+            field:
+              type: text
+              display: 'CTA Text'
+          -
+            handle: specialists_cta_url
+            field:
+              type: text
+              display: 'CTA URL'
+title: Homepage

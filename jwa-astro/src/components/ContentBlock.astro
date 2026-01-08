@@ -1,0 +1,56 @@
+---
+import { marked } from 'marked'; 
+interface Props {
+  heading?: string;
+  content?: string;
+  ctaText?: string;
+  ctaUrl?: string;
+}
+const { heading, content, ctaText, ctaUrl } = Astro.props;
+
+
+const htmlContent = content ? await marked.parse(String(content)) : '';
+---
+
+<div class="textimage textimage-home">
+    <div class="uk-container uk-container-center">
+        <div class="textimage-text">
+            {heading && <h2>{heading}</h2>}
+            <div set:html={htmlContent} />
+            {ctaText && ctaUrl && (
+                <p><a class="btn btn-border" href={ctaUrl}>{ctaText}</a></p>
+            )}
+        </div>
+    </div>
+</div>
+
+<style>
+    .textimage-home {
+        padding: 60px 0;
+        background: #f9f9f9;
+        color: #333;
+    }
+    .uk-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+    .textimage-text h2 {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+    }
+    .btn-border {
+        display: inline-block;
+        padding: 10px 20px;
+        border: 2px solid #333;
+        color: #333;
+        text-decoration: none;
+        text-transform: uppercase;
+        font-weight: bold;
+        transition: all 0.3s;
+    }
+    .btn-border:hover {
+        background: #333;
+        color: #fff;
+    }
+</style>

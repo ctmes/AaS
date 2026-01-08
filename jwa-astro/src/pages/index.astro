@@ -1,7 +1,29 @@
 ---
-import { getPosts } from '../lib/statamic';
+import { getGlobal, getApplications } from '../lib/statamic';
+import HomeHero from '../components/HomeHero.astro';
+import ApplicationGrid from '../components/ApplicationGrid.astro';
+import ContentBlock from '../components/ContentBlock.astro';
 
-const posts = await getPosts();
+const homepage = await getGlobal('homepage');
+const applications = await getApplications();
+
+const heroData = homepage ? {
+    title: homepage.hero_title,
+    video: homepage.hero_video, // Statamic might return asset object or URL depending on hydration
+    image: homepage.hero_image,
+} : {};
+
+const introData = homepage ? {
+    heading: homepage.intro_heading,
+    content: homepage.intro_text,
+} : {};
+
+const specialistsData = homepage ? {
+    heading: homepage.specialists_heading,
+    content: homepage.specialists_content,
+    ctaText: homepage.specialists_cta_text,
+    ctaUrl: homepage.specialists_cta_url,
+} : {};
 ---
 
 <html lang="en">
@@ -9,94 +31,26 @@ const posts = await getPosts();
 		<meta charset="utf-8" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro + Statamic</title>
-		<style>
-			body {
-				font-family: system-ui, -apple-system, sans-serif;
-				max-width: 1200px;
-				margin: 0 auto;
-				padding: 2rem;
-				background: #0f0f0f;
-				color: #ffffff;
-			}
-			h1 {
-				font-size: 3rem;
-				background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
-				-webkit-background-clip: text;
-				-webkit-text-fill-color: transparent;
-				margin-bottom: 2rem;
-			}
-			.posts-grid {
-				display: grid;
-				grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-				gap: 2rem;
-				margin-top: 2rem;
-			}
-			.post-card {
-				background: #1a1a1a;
-				border-radius: 12px;
-				padding: 1.5rem;
-				border: 1px solid #333;
-				transition: transform 0.2s, border-color 0.2s;
-			}
-			.post-card:hover {
-				transform: translateY(-4px);
-				border-color: #4ecdc4;
-			}
-			.post-title {
-				font-size: 1.5rem;
-				margin: 0 0 0.5rem 0;
-				color: #4ecdc4;
-			}
-			.post-date {
-				color: #888;
-				font-size: 0.9rem;
-			}
-			.error {
-				background: #ff6b6b;
-				color: white;
-				padding: 1rem;
-				border-radius: 8px;
-			}
-			.nav {
-				margin-bottom: 2rem;
-			}
-			.nav a {
-				color: #4ecdc4;
-				text-decoration: none;
-				margin-right: 1rem;
-				font-weight: 500;
-			}
-			.nav a:hover {
-				text-decoration: underline;
-			}
-		</style>
+		<title>{homepage ? homepage.title : 'JWA Mats'}</title>
+        <!-- Import any global styles or fonts here -->
+        <style>
+             @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&display=swap');
+             body { font-family: 'Nunito Sans', sans-serif; margin: 0; }
+        </style>
 	</head>
 	<body>
-		<nav class="nav">
-			<a href="/">Home</a>
-			<a href="/blog">Blog</a>
-			<a href="/products">Products</a>
-		</nav>
-		
-		<h1>Astro + Statamic</h1>
-		
-		{posts && posts.length > 0 ? (
-			<div class="posts-grid">
-				{posts.map((post: any) => (
-					<article class="post-card">
-						<h2 class="post-title">{post.title}</h2>
-						{post.date && <p class="post-date">{new Date(post.date).toLocaleDateString()}</p>}
-						{post.excerpt && <p>{post.excerpt}</p>}
-					</article>
-				))}
-			</div>
-		) : (
-			<div class="error">
-				<p>No posts found or error connecting to Statamic API.</p>
-				<p>Check that your Railway deployment is running.</p>
-			</div>
-		)}
+        {homepage ? (
+            <>
+                <HomeHero {...heroData} />
+                <ContentBlock {...introData} /> 
+                <ApplicationGrid applications={applications} />
+                <ContentBlock {...specialistsData} />
+            </>
+        ) : (
+             <div style="padding: 50px; text-align: center;">
+                <h1>Backend Connection Error</h1>
+                <p>Could not load homepage data from Statamic.</p>
+            </div>
+        )}
 	</body>
 </html>

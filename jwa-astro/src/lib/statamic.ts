@@ -1,4 +1,4 @@
-// Change it to this:
+
 const STATAMIC_API = import.meta.env.STATAMIC_API_URL;
 
 if (!STATAMIC_API) {
@@ -11,11 +11,30 @@ export async function getEntries(collection: string) {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-        return await response.json();
+        const json = await response.json();
+        return json.data || json;
     } catch (error) {
         console.error(`Failed to fetch ${collection}:`, error);
         return [];
     }
+}
+
+export async function getGlobal(handle: string) {
+    try {
+        const response = await fetch(`${STATAMIC_API}/globals/${handle}`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const json = await response.json();
+        return json.data || json;
+    } catch (error) {
+        console.error(`Failed to fetch global ${handle}:`, error);
+        return null;
+    }
+}
+
+export async function getApplications() {
+    return getEntries('applications');
 }
 
 export async function getPosts() {

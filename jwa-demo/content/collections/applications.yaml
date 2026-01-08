@@ -1,0 +1,8 @@
+title: Applications
+route: '/applications/{slug}'
+blueprint: application
+template: applications/show
+layout: layout
+revisions: false
+structure:
+  root: true
