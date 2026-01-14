@@ -2,110 +2,279 @@
 import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 
-export async function getStaticPaths() {
-  const applications = await getCollection('applications');
-  return applications.map(entry => ({
-    params: { slug: entry.slug },
-    props: { entry },
-  }));
-}
 
 const { entry } = Astro.props;
 const { Content } = await entry.render();
-const { title, description, main_image } = entry.data;
+const { title, description, main_image, tags } = entry.data;
+
+// Group tags if possible, or just display them. Reference splits by Type and Industry.
+// For now, we'll list all tags under "Application Tags" or similar if we can't easily distinguish.
+// The reference has "Application type: Roads, Platforms" and "Application industry: Oil and Gas..."
+// Our frontmatter just has a list of 'tags'. We'll display them as a single group for now to avoid complexity,
+// or check if we can split them based on known sets.
+// Let's just render the tags available.
 ---
+import ClientSlider from '../../components/ClientSlider.astro';
 
 <Layout title={`${title} | Applications - JWA`}>
+    <div class="herobanner">
+        <div class="herobanner-wrapper">
+            <div class="uk-container uk-container-center">
+                <div class="overlay">
+                    <div class="text-wrapper">
+                        <h1>{title}</h1>
+                    </div>
+                </div>
+            </div>
+            {/* Fallback hero image if specific one not defined, or use main_image as hero background? 
+                Reference uses specific 'BeachAccessHero_1.jpg'. We'll use a generic hero or main_image. */}
+             <picture>
+                <img src="/JWA/media/images/Teaser-Image-750x750/Beach-Access-Matting-750x750.jpg" alt={title} class="hero-bg" />
+            </picture> 
+        </div>
+    </div>
+
+    <div class="breadcrumbs">
+        <div class="uk-container uk-container-center">
+            <ol class="uk-breadcrumb">
+                <li><a href="/">Home</a></li>
+                <li><a href="/applications">Applications</a></li>
+                <li class="uk-active"><span>{title}</span></li>
+            </ol>
+        </div>
+    </div>
+
     <div class="application-detail">
         <div class="uk-container uk-container-center">
-            <a href="/applications" class="back-link">&larr; Back to Applications</a>
-            
-            <div class="detail-header">
-                <h1>{title}</h1>
-                <p class="lead">{description}</p>
-            </div>
-
-            {main_image && (
-                <div class="featured-image">
-                    <img src={main_image.url} alt={title} />
+            <div class="panel-wrapper">
+                <div class="left-panel">
+                    <div class="application-content">
+                        {main_image && (
+                            <img src={main_image.url} alt={title} class="main-image" />
+                        )}
+                        <div class="application-type-wrapper">
+                            <div class="application-type">
+                                <span>Tags:</span>
+                                {tags && tags.map(tag => (
+                                    <div class="tag"><a href={`/applications?tag=${tag}`}>{tag}</a></div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            )}
 
-            <div class="content-body">
-                <Content />
+                <div class="right-panel wysiwg">
+                    <div class="content-header">
+                       {/* Title is in Hero, but usually repeated or intro used here. Reference puts content h2s here. */}
+                    </div>
+                    <Content />
+                    
+                    <p style="margin-top: 30px;">
+                        <strong>Send us a message in a bottle, or for quicker response, click below.</strong>
+                    </p>
+                    <p><a class="btn quote-btn" href="/get-a-quote">GET A QUOTE</a></p>
+                </div>
             </div>
         </div>
     </div>
+
+    <div class="footer-push"></div>
+    <ClientSlider />
 </Layout>
 
 <style>
+    /* Hero Styles */
+    .herobanner {
+        position: relative;
+        height: 400px;
+        overflow: hidden;
+    }
+    .herobanner-wrapper {
+        position: relative;
+        width: 100%;
+        height: 100%;
+    }
+    .hero-bg {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    .herobanner .overlay {
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(0,0,0,0.3);
+        z-index: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .herobanner h1 {
+        color: #fff;
+        font-size: 3.5rem;
+        font-weight: bold;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        margin: 0;
+    }
+
+    /* Breadcrumbs */
+    .breadcrumbs {
+        padding: 15px 0;
+        background: #f5f5f5;
+        border-bottom: 1px solid #ddd;
+    }
+    .uk-breadcrumb {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .uk-breadcrumb li {
+        display: inline-block;
+        font-size: 0.95rem;
+        color: #666;
+    }
+    .uk-breadcrumb li + li::before {
+        content: "/";
+        margin: 0 10px;
+        color: #999;
+    }
+    .uk-breadcrumb li a {
+        color: #555;
+        text-decoration: none;
+    }
+    .uk-breadcrumb li a:hover {
+        text-decoration: underline;
+    }
+    .uk-breadcrumb .uk-active span {
+        color: #333;
+        font-weight: bold;
+    }
+
+    /* Layout */
     .application-detail {
         padding: 60px 0;
+        background: #fff;
     }
     .uk-container {
         max-width: 1200px;
         margin: 0 auto;
         padding: 0 20px;
     }
-    .back-link {
-        display: inline-block;
-        margin-bottom: 30px;
-        color: #666;
-        text-decoration: none;
-        font-weight: 600;
+    .panel-wrapper {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 0 -15px;
     }
-    .back-link:hover {
-        color: #000;
-        text-decoration: underline;
+    .left-panel {
+        width: 33.333%;
+        padding: 0 15px;
+        box-sizing: border-box;
     }
-    .detail-header {
-        text-align: center;
-        margin-bottom: 50px;
+    .right-panel {
+        width: 66.666%;
+        padding: 0 15px;
+        box-sizing: border-box;
     }
-    h1 {
-        font-size: 3rem;
-        margin-bottom: 20px;
-        color: #333;
-    }
-    .lead {
-        font-size: 1.25rem;
-        color: #666;
-        max-width: 800px;
-        margin: 0 auto;
-    }
-    .featured-image {
-        margin-bottom: 50px;
-        border-radius: 8px;
-        overflow: hidden;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-    .featured-image img {
+
+    /* Content Styling */
+    .main-image {
         width: 100%;
         height: auto;
-        max-height: 600px;
-        object-fit: cover;
+        border-radius: 4px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        margin-bottom: 20px;
     }
-    .content-body {
-        max-width: 800px;
-        margin: 0 auto;
-        font-size: 1.125rem;
-        line-height: 1.8;
+    
+    .application-type-wrapper {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 4px;
+        border: 1px solid #eee;
+    }
+    .application-type span {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 10px;
         color: #333;
+        text-transform: uppercase;
+        font-size: 0.85rem;
+        letter-spacing: 1px;
     }
-    /* Add basic markdown styling */
-    .content-body :global(h2) {
-        margin-top: 40px;
-        margin-bottom: 20px;
+    .tag {
+        display: inline-block;
+        margin: 0 5px 5px 0;
+    }
+    .tag a {
+        display: inline-block;
+        padding: 5px 10px;
+        background: #004d40; /* Approximate JWA Green */
+        color: #fff;
+        text-decoration: none;
+        font-size: 0.8rem;
+        border-radius: 3px;
+        transition: background 0.3s;
+    }
+    .tag a:hover {
+        background: #00695c;
+    }
+
+    .right-panel :global(h2) {
         font-size: 2rem;
+        color: #333;
+        margin-top: 0;
+        margin-bottom: 20px;
+        font-weight: 700;
+        border-bottom: 2px solid #f0a500; /* JWA Orange/Yellow accent */
+        padding-bottom: 10px;
+        display: inline-block;
     }
-    .content-body :global(p) {
+    .right-panel :global(h3) {
+        font-size: 1.5rem;
+        color: #333;
+        margin-top: 30px;
+        margin-bottom: 15px;
+    }
+    .right-panel :global(p) {
+        font-size: 1.1rem;
+        line-height: 1.6;
+        color: #555;
         margin-bottom: 20px;
     }
-    .content-body :global(ul) {
+    .right-panel :global(ul) {
         margin-bottom: 20px;
         padding-left: 20px;
     }
-    .content-body :global(li) {
+    .right-panel :global(li) {
         margin-bottom: 10px;
+        color: #555;
+    }
+
+    /* Button */
+    .quote-btn {
+        display: inline-block;
+        background: #f0a500;
+        color: #fff;
+        font-weight: bold;
+        padding: 12px 30px;
+        text-decoration: none;
+        border-radius: 5px;
+        text-transform: uppercase;
+        transition: background 0.3s;
+    }
+    .quote-btn:hover {
+        background: #e69c00;
+        color: #fff;
+    }
+
+    /* Responsive */
+    @media (max-width: 960px) {
+        .left-panel, .right-panel {
+            width: 100%;
+        }
+        .left-panel {
+            margin-bottom: 40px;
+        }
     }
 </style>
+

@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
+import ClientSlider from '../../components/ClientSlider.astro';
 
 export async function getStaticPaths() {
   const products = await getCollection('products');
@@ -12,49 +13,268 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const { Content } = await entry.render();
-const { title } = entry.data;
+const { title, description, main_image, tags } = entry.data;
 ---
 
 <Layout title={`${title} | JWA Composite Matting`}>
-    <div class="product-page">
+    <div class="herobanner">
+        <div class="herobanner-wrapper">
+            <div class="uk-container uk-container-center">
+                <div class="overlay">
+                    <div class="text-wrapper">
+                        <h1>{title}</h1>
+                    </div>
+                </div>
+            </div>
+            <picture>
+                <img src="/JWA/media/images/Teaser-Image-750x750/Beach-Access-Matting-750x750.jpg" alt={title} class="hero-bg" />
+            </picture> 
+        </div>
+    </div>
+
+    <div class="breadcrumbs">
         <div class="uk-container uk-container-center">
-            <h1>{title}</h1>
-            <div class="product-content">
-                <Content />
+            <ol class="uk-breadcrumb">
+                <li><a href="/">Home</a></li>
+                <li class="uk-active"><span>{title}</span></li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="product-page application-detail">
+        <div class="uk-container uk-container-center">
+            <div class="panel-wrapper">
+                <div class="left-panel">
+                    <div class="application-content">
+                        {main_image && (
+                            <img src={main_image.url} alt={title} class="main-image" />
+                        )}
+                        {tags && (
+                            <div class="application-type-wrapper">
+                                <div class="application-type">
+                                    <span>Features:</span>
+                                    {tags.map(tag => (
+                                        <div class="tag">{tag}</div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </div>
+
+                <div class="right-panel wysiwg">
+                    <div class="content-header"></div>
+                    <Content />
+                    
+                    <p style="margin-top: 30px;">
+                        <strong>Need a quote or more information?</strong>
+                    </p>
+                    <p><a class="btn quote-btn" href="/get-a-quote">GET A QUOTE</a></p>
+                </div>
             </div>
         </div>
     </div>
+
+    <div class="footer-push"></div>
+    <ClientSlider />
 </Layout>
 
 <style>
-    .product-page {
+    /* Hero Styles */
+    .herobanner {
+        position: relative;
+        height: 400px;
+        overflow: hidden;
+    }
+    .herobanner-wrapper {
+        position: relative;
+        width: 100%;
+        height: 100%;
+    }
+    .hero-bg {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    .herobanner .overlay {
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(0,0,0,0.3);
+        z-index: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .herobanner h1 {
+        color: #fff;
+        font-size: 3.5rem;
+        font-weight: bold;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        text-align: center;
+        margin: 0;
+    }
+
+    /* Breadcrumbs */
+    .breadcrumbs {
+        padding: 15px 0;
+        background: #f5f5f5;
+        border-bottom: 1px solid #ddd;
+    }
+    .uk-breadcrumb {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .uk-breadcrumb li {
+        display: inline-block;
+        font-size: 0.95rem;
+        color: #666;
+    }
+    .uk-breadcrumb li + li::before {
+        content: "/";
+        margin: 0 10px;
+        color: #999;
+    }
+    .uk-breadcrumb li a {
+        color: #555;
+        text-decoration: none;
+    }
+    .uk-breadcrumb li a:hover {
+        text-decoration: underline;
+    }
+    .uk-breadcrumb .uk-active span {
+        color: #333;
+        font-weight: bold;
+    }
+
+    /* Layout */
+    .application-detail {
         padding: 60px 0;
+        background: #fff;
     }
     .uk-container {
         max-width: 1200px;
         margin: 0 auto;
         padding: 0 20px;
     }
-    h1 {
-        font-size: 3rem;
-        margin-bottom: 40px;
-        text-align: center;
+    .panel-wrapper {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 0 -15px;
     }
-    .product-content {
-        max-width: 900px;
-        margin: 0 auto;
-        line-height: 1.8;
+    .left-panel {
+        width: 33.333%;
+        padding: 0 15px;
+        box-sizing: border-box;
     }
-    .product-content :global(h2) {
+    .right-panel {
+        width: 66.666%;
+        padding: 0 15px;
+        box-sizing: border-box;
+    }
+
+    /* Content Styling */
+    .main-image {
+        width: 100%;
+        height: auto;
+        border-radius: 4px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        margin-bottom: 20px;
+    }
+    
+    .application-type-wrapper {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 4px;
+        border: 1px solid #eee;
+    }
+    .application-type span {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 10px;
+        color: #333;
+        text-transform: uppercase;
+        font-size: 0.85rem;
+        letter-spacing: 1px;
+    }
+    .tag {
+        display: inline-block;
+        margin: 0 5px 5px 0;
+        padding: 5px 10px;
+        background: #004d40;
+        color: #fff;
+        font-size: 0.8rem;
+        border-radius: 3px;
+    }
+
+    /* Typography from Layout */
+    .right-panel :global(h2) {
         font-size: 2rem;
-        margin-top: 40px;
+        color: #333;
+        margin-top: 0;
+        margin-bottom: 20px;
+        font-weight: 700;
+        border-bottom: 2px solid #f0a500;
+        padding-bottom: 10px;
+        display: inline-block;
+    }
+    .right-panel :global(h3) {
+        font-size: 1.5rem;
+        color: #333;
+        margin-top: 30px;
+        margin-bottom: 15px;
+        font-weight: 600;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 5px;
+    }
+    .right-panel :global(h4) {
+        font-size: 1.25rem;
+        color: #333;
+        margin-top: 25px;
+        margin-bottom: 10px;
+        font-weight: 600;
+    }
+    .right-panel :global(p) {
+        font-size: 1.1rem;
+        line-height: 1.6;
+        color: #555;
         margin-bottom: 20px;
     }
-    .product-content :global(p) {
-        margin-bottom: 20px;
-    }
-    .product-content :global(ul) {
+    .right-panel :global(ul) {
         margin-bottom: 20px;
         padding-left: 20px;
+    }
+    .right-panel :global(li) {
+        margin-bottom: 10px;
+        color: #555;
+    }
+
+    /* Button */
+    .quote-btn {
+        display: inline-block;
+        background: #f0a500;
+        color: #fff;
+        font-weight: bold;
+        padding: 12px 30px;
+        text-decoration: none;
+        border-radius: 5px;
+        text-transform: uppercase;
+        transition: background 0.3s;
+    }
+    .quote-btn:hover {
+        background: #e69c00;
+        color: #fff;
+    }
+
+    /* Responsive */
+    @media (max-width: 960px) {
+        .left-panel, .right-panel {
+            width: 100%;
+        }
+        .left-panel {
+            margin-bottom: 40px;
+        }
     }
 </style>
