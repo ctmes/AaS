@@ -1,0 +1,1 @@
+chrome-extension://ndcileolkflehcjpmjnfbnaibdcgglog/globals-front.js

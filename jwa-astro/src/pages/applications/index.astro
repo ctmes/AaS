@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import ApplicationGrid from '../../components/ApplicationGrid.astro';
+import ClientSlider from '../../components/ClientSlider.astro';
 
 const applicationsEntries = await getCollection('applications');
 const applications = applicationsEntries.map(entry => entry.data);
@@ -22,6 +23,7 @@ applications.forEach((app, index) => {
     </div>
     
     <ApplicationGrid applications={applications} />
+    <ClientSlider />
 </Layout>
 
 <style>
