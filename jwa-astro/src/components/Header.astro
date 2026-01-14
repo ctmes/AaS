@@ -82,9 +82,14 @@
 <style>
 /* Simplified styles to make header usable if global CSS is missing */
 .header {
-    background: #fff;
-    padding: 10px 0;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    background: transparent;
+    padding: 20px 0;
+    box-shadow: none;
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 100;
 }
 .uk-container {
     max-width: 1200px;
@@ -105,9 +110,10 @@
 }
 .uk-navbar-nav > li > a {
     text-decoration: none;
-    color: #333;
+    color: white;
     padding: 0 15px;
     font-weight: 600;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
 }
 .phone-btn, .quote-btn {
     text-decoration: none;
@@ -116,7 +122,7 @@
     font-weight: bold;
 }
 .phone-btn {
-    color: #333;
+    color: white;
 }
 .quote-btn {
     background: #f0a500;
