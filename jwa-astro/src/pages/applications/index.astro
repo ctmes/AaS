@@ -1,0 +1,64 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import ApplicationGrid from '../../components/ApplicationGrid.astro';
+
+const applicationsEntries = await getCollection('applications');
+const applications = applicationsEntries.map(entry => entry.data);
+// Add slug to the data passed to grid
+applications.forEach((app, index) => {
+    app.slug = applicationsEntries[index].slug;
+});
+
+---
+
+<Layout title="Applications - JWA">
+    <div class="page-hero">
+        <div class="uk-container uk-container-center">
+            <h1>Applications</h1>
+        </div>
+        <img src="/JWA/media/images/Teaser-Image-750x750/Mats-installed-(7)_1.jpg" alt="Applications" class="hero-bg" />
+        <div class="overlay"></div>
+    </div>
+    
+    <ApplicationGrid applications={applications} />
+</Layout>
+
+<style>
+    .page-hero {
+        position: relative;
+        height: 400px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        color: white;
+        text-align: center;
+    }
+    .page-hero h1 {
+        position: relative;
+        z-index: 2;
+        font-size: 3.5rem;
+        font-weight: bold;
+        color: white;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    }
+    .hero-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: 0;
+    }
+    .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.4);
+        z-index: 1;
+    }
+</style>
