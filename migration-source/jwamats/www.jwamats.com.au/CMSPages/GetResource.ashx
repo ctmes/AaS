@@ -1,0 +1,1 @@
+.reset-password-wrapper .form-group .control-label{font-weight:bold}.reset-password-wrapper .form-group .btn{margin-top:20px}.uk-notouch a[href^="tel:"]{pointer-events:unset !important;cursor:pointer !important}.phone-btn:hover{color:#fff !important}.phone-btn:hover:before{color:#fff !important}
